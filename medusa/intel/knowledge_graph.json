@@ -1,0 +1,178 @@
+{
+  "127.0.0.1:5700": {
+    "verified_cve": [
+      {
+        "rule": "Command Injection on /admin/ping endpoint",
+        "evidence": "Successfully read /tmp/medusa_flag.txt containing FLAG{r4x41d_h4rd_l4b_rce_2026} via POST to /admin/ping with host=127.0.0.1;cat /tmp/medusa_flag.txt",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T02:22:24.718528+00:00",
+        "last_seen": "2026-07-26T02:22:24.718549+00:00"
+      }
+    ],
+    "_updated": "2026-07-26T02:22:24.718553+00:00"
+  },
+  "ocular-app.tech": {
+    "behavior": [
+      {
+        "rule": "API endpoint /api/chat is same-origin",
+        "evidence": "JS bundle variable xy is empty string, template literal ${xy}/api/chat resolves to /api/chat",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T04:50:43.641524+00:00",
+        "last_seen": "2026-07-26T04:50:43.641535+00:00"
+      },
+      {
+        "rule": "Vercel wildcard catch-all: 308 redirect for ALL paths (includes non-existent URLs)",
+        "evidence": "Gobuster failed: server returns 308 for random UUID path 18bc3e8f-cc59-4fdc-8e50-c68e41e1de29. All paths redirect to HTTPS version. Directory bruteforce impossible.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T04:51:21.341134+00:00",
+        "last_seen": "2026-07-26T04:51:21.341148+00:00"
+      },
+      {
+        "rule": "Vercel wildcard catch-all returns SPA index.html for all undefined routes",
+        "evidence": "All /api/* endpoints (documents, upload, index, search, files, dashboard) return identical 495-char SPA HTML. Only /api/chat returns SSE response (real serverless function).",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T04:53:49.909934+00:00",
+        "last_seen": "2026-07-26T04:53:49.909945+00:00"
+      },
+      {
+        "rule": "Vercel wildcard catch-all \u2014 all non-existent URLs return 308 redirect to HTTPS same path (Length: 14). Gobuster/directory brute-force ineffective.",
+        "evidence": "Gobuster returned: 'server returns a status code that matches the provided options for non existing urls. http://ocular-app.tech/18bc3e8f-cc59-4fdc-8e50-c68e41e1de29 => 308 (redirect to https://...)'",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T05:09:04.614001+00:00",
+        "last_seen": "2026-07-26T05:09:04.614013+00:00"
+      },
+      {
+        "rule": "Google Gemini API key found in JS bundle: All requests to /api/chat include 'Oy({\"question\":...})' with api key in env var",
+        "evidence": "Found in JS bundle: the Oy() function calls the serverless /api/chat endpoint. Google Gemini API key is stored server-side but client-side API calls use it for LLM processing. The key appears to be configured as an environment variable on Vercel.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T05:09:11.835366+00:00",
+        "last_seen": "2026-07-26T05:09:11.835381+00:00"
+      },
+      {
+        "rule": "Confirmed: File uploads are entirely client-side. No HTTP upload requests found \u2014 uses File System Access API + IndexedDB. Document indexing happens locally in browser before querying /api/chat.",
+        "evidence": "Operator manually tested via Burp and confirmed: 'there are no http requests involved in file uploads'. Supported by JS bundle analysis showing client-side IndexedDB operations and /api/chat's 'Index some files first' response.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T05:09:19.894534+00:00",
+        "last_seen": "2026-07-26T05:09:19.894548+00:00"
+      },
+      {
+        "rule": "File uploads are client-side via File System Access API + IndexedDB",
+        "evidence": "KG confirmed; /api/chat returns 'No relevant documents found. Index some files first.'",
+        "confidence": 1.0,
+        "verified_at": "2026-07-27T03:59:22.612931+00:00",
+        "last_seen": "2026-07-27T03:59:22.612951+00:00"
+      }
+    ],
+    "_updated": "2026-07-27T03:59:22.612954+00:00",
+    "verified_cve": [
+      {
+        "rule": "Google API key exposed in JS bundle: AIzaSyANwe_3zpMHBwFvCwC3vqyp0A4PUDWrsKw",
+        "evidence": "Found in JS bundle at offset 467114: `var yy=...OAuth client...by=...API key...,xy=``. Key is for Google Drive/API integration.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T04:51:30.936278+00:00",
+        "last_seen": "2026-07-26T04:51:30.936297+00:00"
+      },
+      {
+        "rule": "Exposed Google API key in client-side bundle",
+        "evidence": "Python regex extraction from /tmp/bundle.js: AIzaSyANwe_3zpMHBwFvCwC3vqyp0A4PUDWrsKw",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T12:37:18.548759+00:00",
+        "last_seen": "2026-07-26T12:37:18.548782+00:00"
+      }
+    ]
+  },
+  "127.0.0.1:5800": {
+    "verified_cve": [
+      {
+        "rule": "Exposed .git directory with hardcoded secrets in commit history",
+        "evidence": "Direct curl access to .git/COMMIT_EDITMSG revealed commit message explicitly listing: jwt_s3cr3t_cbn_2026, dk_cbn_admin_full, legacy_admin_2022, cbn_db_p@ss_2026. Four credentials obtained.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T05:32:01.320127+00:00",
+        "last_seen": "2026-07-26T05:32:01.320138+00:00"
+      }
+    ],
+    "_updated": "2026-07-26T05:40:35.072051+00:00",
+    "behavior": [
+      {
+        "rule": "GraphQL updateProfile mutation accepts profileData (String) - potential SSTI vector when rendering on profile/dashboard",
+        "evidence": "GraphQL introspection revealed mutation updateProfile takes profileData: String. Querying user fields shows profileData as String. User-supplied data rendered back suggests SSTI.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T05:38:52.611774+00:00",
+        "last_seen": "2026-07-26T05:38:52.611788+00:00"
+      },
+      {
+        "rule": "Source map leak at /static/js/app.js.map reveals flag and secrets",
+        "evidence": "Downloaded source map from http://127.0.0.1:5800/static/js/app.js.map. Found FLAG{src_map_leak_cbn_2026} in config.ts sourcesContent. Also confirmed JWT secret, API key, DB password, and internal ports.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T05:40:35.072026+00:00",
+        "last_seen": "2026-07-26T05:40:35.072046+00:00"
+      }
+    ]
+  },
+  "127.0.0.1": {
+    "verified_cve": [
+      {
+        "rule": "Source map exposure on port 5800",
+        "evidence": "FLAG{src_map_leak_cbn_2026} found in /static/js/app.js.map via curl download. The source map contained JWT signing secret, DB password, API key, and hardcoded credentials for port 5802.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T06:03:14.930396+00:00",
+        "last_seen": "2026-07-26T06:03:14.930409+00:00"
+      },
+      {
+        "rule": "JWT secret discovered from .git history - jwt_s3cr3t_cbn_2026",
+        "evidence": "FLAG{admin_panel_rce_cbn_2026} captured from /admin/flag on port 5800 by forging JWT with secret jwt_s3cr3t_cbn_2026 (HS256 algorithm, user_id=1, role=admin). Source map at /static/js/app.js.map also contained the JWT secret, DB password cbn_db_p@ss_2026, API key dk_cbn_admin_full, and credentials for port 5802 legacy admin.",
+        "confidence": 1.0,
+        "verified_at": "2026-07-26T06:03:21.191448+00:00",
+        "last_seen": "2026-07-26T06:03:21.191462+00:00"
+      }
+    ],
+    "_updated": "2026-07-26T06:03:21.191466+00:00"
+  },
+  "drfrost.org": {
+    "behavior": [
+      {
+        "rule": "Endpoint /health returns JSON with status, uptime, internal fields",
+        "evidence": "Response: {\"status\": \"healthy\", \"uptime\": \"72h\", \"internal\": true}",
+        "confidence": 1.0,
+        "verified_at": "2026-07-27T02:30:26.161473+00:00",
+        "last_seen": "2026-07-27T02:30:26.161485+00:00"
+      },
+      {
+        "rule": "sonic.drfrost.org is the API backend (from CSP connect-src)",
+        "evidence": "CSP header: connect-src 'self' https://sonic.drfrost.org https://o4510674642862080.ingest.de.sentry.io",
+        "confidence": 1.0,
+        "verified_at": "2026-07-27T02:30:42.407370+00:00",
+        "last_seen": "2026-07-27T02:30:42.407379+00:00"
+      },
+      {
+        "rule": "Remix framework identified with Sentry error tracking",
+        "evidence": "All modulepreload links in 404 response. Sentry DSN: o4510674642862080.ingest.de.sentry.io",
+        "confidence": 1.0,
+        "verified_at": "2026-07-27T02:30:42.415793+00:00",
+        "last_seen": "2026-07-27T02:30:42.415801+00:00"
+      }
+    ],
+    "_updated": "2026-07-27T02:30:42.415804+00:00"
+  },
+  "www.drfrost.org": {
+    "behavior": [
+      {
+        "rule": "_df_login_alert cookie contains base64 JSON with 'message' field",
+        "evidence": "eyJtZXNzYWdlIjoiIn0= decodes to {'message':''} on failed login",
+        "confidence": 1.0,
+        "verified_at": "2026-07-27T02:41:58.769658+00:00",
+        "last_seen": "2026-07-27T02:41:58.769670+00:00"
+      }
+    ],
+    "_updated": "2026-07-27T02:48:00.960804+00:00",
+    "verified_cve": [
+      {
+        "rule": "SSTI on /login username field",
+        "evidence": "{{7*7}} produced 49 in response, {{7777777}} produced 7777777 (found by grep), proving template engine evaluation",
+        "confidence": 1.0,
+        "verified_at": "2026-07-27T02:48:00.960792+00:00",
+        "last_seen": "2026-07-27T02:48:00.960802+00:00"
+      }
+    ]
+  }
+}
